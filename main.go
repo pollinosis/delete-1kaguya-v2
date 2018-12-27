@@ -18,6 +18,7 @@ func deleteTimeLine(api *anaconda.TwitterApi, v url.Values) {
 		api.DeleteTweet(tweet.Id, true)
 	}
 }
+
 func fuck(w http.ResponseWriter, r *http.Request) {
 	anaconda.SetConsumerKey(CONSUMER_KEY)
 	anaconda.SetConsumerSecret(CONSUMER_SECRET)
