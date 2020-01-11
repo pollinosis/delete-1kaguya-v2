@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/ChimeraCoder/anaconda"
+	"github.com/joho/godotenv"
 )
 
 func deleteTimeLine(api *anaconda.TwitterApi, v url.Values) {
@@ -20,12 +21,18 @@ func deleteTimeLine(api *anaconda.TwitterApi, v url.Values) {
 	}
 }
 
-func fuck(w http.ResponseWriter, r *http.Request) {
-	const consumer_key = os.Getenv("CONSUMER_KEY")
-	const consumer_secret = os.Getenv("CONSUMER_SECRET")
-	const accsess_token = os.Getenv("ACCESS_TOKEN")
-	const accsess_token_secret = os.Getenv("ACCESS_TOKEN_SECRET")
-	const screen_name = os.Getenv("SCREEN_NAME")
+
+func d(w http.ResponseWriter, r *http.Request) {
+	err := godotenv.Load()
+    if err != nil {
+        log.Fatal("Error loading .env file")
+	}
+	
+	consumer_key := os.Getenv("CONSUMER_KEY")
+	consumer_secret := os.Getenv("CONSUMER_SECRET")
+	accsess_token := os.Getenv("ACCESS_TOKEN")
+	accsess_token_secret := os.Getenv("ACCESS_TOKEN_SECRET")
+	screen_name := os.Getenv("SCREEN_NAME")
 	anaconda.SetConsumerKey(consumer_key)
 	anaconda.SetConsumerSecret(consumer_secret)
 	api := anaconda.NewTwitterApi(accsess_token, accsess_token_secret)
@@ -37,7 +44,7 @@ func fuck(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", fuck)
+	http.HandleFunc("/", d)
 	err := http.ListenAndServe(":80", nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
